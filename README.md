@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -34,3 +35,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+=======
+# NextGen-Job-portal
+A full-stack Job Portal built with Next.js, TypeScript, and MongoDB. Features include user authentication, role-based access (Job Seeker, Employer, Admin), job posting, job applications, employer dashboards, and secure APIs using the App Router.
+>>>>>>> 0f9cf1bad6032a4d5ad48248e4ca66dfdc534f8a
