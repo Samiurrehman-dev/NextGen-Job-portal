@@ -2,7 +2,7 @@ import { time } from "console";
 import mongoose, {Schema, Document} from "mongoose"
 
 export interface  IJob extends Document{
-    tittle: string;
+    title: string;
     description: string;
     company: string;
     salary: string;
@@ -16,7 +16,7 @@ export interface  IJob extends Document{
 
 }
 const jobSchema: Schema = new Schema({
-    tittle:{type: String, required: true},
+    title:{type: String, required: true},
     description: {type: String, required: true},
     company: {type: String, required: true},
     location: {type: String, required: true},
@@ -26,11 +26,11 @@ const jobSchema: Schema = new Schema({
     jobType: {
         type: String,
         enum: ["full-time", "part-time", "internship", "remote"],
-        default: "fulltime"
+        default: "full-time"
     },
     createdBy: {type: mongoose.Types.ObjectId, ref: "User", required: true},
     status:{
-        types: String,
+        type: String,
         enum: ["open", "closed"],
         default: "open"
     },

@@ -1,46 +1,52 @@
-import { NextResponse } from "next/server"
-import dbConnect from "@/libs/dbConnect"
-import User from "@/models/User"
+import { NextResponse } from "next/server";
+import dbConnect from "@/libs/dbConnect";
+import User from "@/models/User";
+import { hashPassword } from "@/libs/auth";
 
-import { hashPassword } from "@/libs/auth"
-
-export async function POSt(request: Request){
+export async function POST(req: Request) {
     try {
         await dbConnect();
-
-        const{name, email, password, role} = await request.json();
-        const existingUser = await User.findOne({email});
-        if(existingUser){
+        
+        const { name, email, password, role } = await req.json();
+        
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
             return NextResponse.json(
-                {message: "User already exists"},
-                {status: 400}
-            )
+                { message: "User already exists" },
+                { status: 400 }
+            );
         }
-        const hashedPassword = await  hashPassword(password);
-
+        
+        // Hash password
+        const hashedPassword = await hashPassword(password);
+        
+        // Create new user
         const newUser = await User.create({
             name,
             email,
-            hashPassword,
+            password: hashedPassword,
             role
         });
-
+        
         return NextResponse.json(
-            {
-                message: "User Registered Successfully", user: newUser
+            { 
+                message: "User registered successfully",
+                user: {
+                    id: newUser._id,
+                    name: newUser.name,
+                    email: newUser.email,
+                    role: newUser.role
+                }
             },
-            {
-                status: 201
-            }
+            { status: 201 }
         );
         
-    } catch (error: any) {
-        console.log("Registration Error: ", error);
-        NextResponse.json(
-            {
-                message: "something went wrong",
-                status : 500
-            }
+    } catch (error) {
+        console.log("Register Error:", error);
+        return NextResponse.json(
+            { message: "Server Error" },
+            { status: 500 }
         );
     }
 }

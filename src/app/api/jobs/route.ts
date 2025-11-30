@@ -3,7 +3,7 @@ import dbConnect from "@/libs/dbConnect";
 import Job from "@/models/Job";
 import { getUserFromRequest, requireRole } from "@/libs/auth";
 
-export async function POSt(req: Request){
+export async function POST(req: Request){
     try {
         await dbConnect();
 
@@ -15,7 +15,7 @@ export async function POSt(req: Request){
             )
         }
 
-        if(!requireRole(user, ["employee", "admin"])){
+        if(!requireRole(user, ["employer", "admin"])){
             return NextResponse.json(
                 {message: "Access denied"},
                 {status: 403}
@@ -28,18 +28,19 @@ export async function POSt(req: Request){
             ...body,
             createdBy: user._id
         });
+        return NextResponse.json({job: newJob}, {status: 201})
 
         
     } catch (error) {
         console.log("Job create error", error)
-        NextResponse.json(
+        return NextResponse.json(
             {message: "Server Error"},
             {status: 500}
         )
         
     }
  }
- export async function Get(){
+ export async function GET(){
     try {
         await dbConnect();
         const jobs = await Job.find().populate("createdBy", "name email")
@@ -48,7 +49,7 @@ export async function POSt(req: Request){
     } catch (error) {
         console.log("Get Jobs Error: ", error);
         return NextResponse.json(
-            {messsage: "Server Error"},
+            {message: "Server Error"},
             {status: 500}
         );
     }

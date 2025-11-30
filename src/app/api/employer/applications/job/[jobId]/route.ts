@@ -4,7 +4,7 @@ import Application from "@/models/Application";
 import Job from "@/models/Job";
 import { NextResponse } from "next/server";
 
-export async function Get(req: Request, context: any){
+export async function GET(req: Request, context: any){
 
         try {
             await dbConnect();
@@ -36,7 +36,7 @@ export async function Get(req: Request, context: any){
                 )
              }
 
-             const application = Application.find({job: jobid}).populate(
+             const application = await Application.find({job: jobid}).populate(
                 "applicant",
                 "name email"
              )
